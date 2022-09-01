@@ -17,6 +17,7 @@ export function Post({author, publishedAt, content}){
   const [newCommentText, setNewCommentText] = useState('');
 
   function handleNewCommentChange(){
+    event.target.setCustomValidity('');
     setNewCommentText(event.target.value);
   }
 
@@ -45,6 +46,11 @@ export function Post({author, publishedAt, content}){
     })
 
     setComments(commentsWithoutDeletedOne);
+  }
+  /********** End Communication between components *************/
+
+  function handleNewCommentInvalid(){
+    event.target.setCustomValidity('Este campo é obrigatório');
   }
 
   return (
@@ -85,10 +91,12 @@ export function Post({author, publishedAt, content}){
           value={newCommentText}
           placeholder='Deixe um comentário'
           onChange={handleNewCommentChange}
+          onInvalid={handleNewCommentInvalid}
+          required
         />
 
         <footer>
-          <button type='submit'>
+          <button type='submit' disabled={newCommentText == 0}>
             Publicar
           </button>
         </footer>
